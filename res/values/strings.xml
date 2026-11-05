@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">2010sssTV</string>
+    <string name="receive">Receive</string>
+    <string name="transmit">Transmit</string>
+    <string name="progressbar_message_sending">Sending...</string>
+    <string name="progressbar_message_saving_to_file">Saving %1$s</string>
+    <string name="start_rx">Start RX</string>
+    <string name="stop_rx">Stop RX</string>
+    <string name="play_tx">Play</string>
+    <string name="save_wav">Save WAV</string>
+    <string name="pick_image">Pick Image</string>
+    <string name="status_idle">Idle</string>
+    <string name="insert_image">Insert Image</string>
+    <string name="edit_image">Edit</string>
+    <string name="replace_image">Replace</string>
+    <string name="pause_tx">Pause</string>
+    <string name="resume_tx">Play</string>
+    <string name="done">Done</string>
+    <string name="cancel">Cancel</string>
+    <string name="editor_title">Image Editor</string>
+    <string name="tool_text">Text</string>
+    <string name="tool_crop">Crop/Rotate</string>
+    <string name="action_apply">Apply</string>
+    <string name="action_add">Add Text</string>
+    <string name="rotate_90">Rotate 90</string>
+    <string name="flip_h">Flip H</string>
+    <string name="flip_v">Flip V</string>
+    <string name="stretch_mode">Stretch to mode</string>
+    <string name="text_hint">Text</string>
+    <string name="text_color">Color</string>
+    <string name="text_size">Size</string>
+    <string name="text_stroke">Stroke</string>
+    <string name="drag_hint">Drag text to move</string>
+    <string name="crop_hint">Drag corners to crop, pinch to zoom/rotate</string>
+    <string name="reset">Reset</string>
+</resources>
+

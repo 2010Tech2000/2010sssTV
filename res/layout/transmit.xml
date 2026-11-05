@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:padding="4dp"
+    android:background="@android:color/black">
+
+    <FrameLayout
+        android:id="@+id/tx_image_container"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:foregroundGravity="center">
+
+        <ImageView
+            android:id="@+id/tx_image"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="false"
+            android:visibility="invisible" />
+
+        <View
+            android:id="@+id/tx_unsent_mask"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="#99111111"
+            android:visibility="invisible" />
+
+        <Button
+            android:id="@+id/btn_insert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/insert_image" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/btn_edit"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:text="@string/edit_image" />
+        <Button
+            android:id="@+id/btn_replace"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:text="@string/replace_image" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/tx_actions_idle"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/btn_play"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:text="Play" />
+        <Button
+            android:id="@+id/btn_save_wav"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:text="@string/save_wav" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_stop"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:text="Stop" />
+
+    <Spinner
+        android:id="@+id/tx_mode"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <ProgressBar
+            android:id="@+id/tx_progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="18dp"
+            android:max="1000"
+            android:progress="0"
+            android:indeterminate="false" />
+        <TextView
+            android:id="@+id/tx_progress_text"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="0%"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:textColor="#ffffffff"
+            android:shadowColor="#aa000000"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="2" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/tx_status"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/status_idle"
+        android:textSize="11sp"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:paddingTop="1dp"
+        android:paddingBottom="1dp" />
+</LinearLayout>

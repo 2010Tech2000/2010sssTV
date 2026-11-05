@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#000000"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <Button android:id="@+id/ed_mode_text" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/tool_text" />
+        <Button android:id="@+id/ed_mode_crop" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/tool_crop" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#000000">
+        <om.sstvandroid2.EditorCanvasView
+            android:id="@+id/ed_canvas"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+    </FrameLayout>
+
+    <ScrollView
+        android:id="@+id/ed_controls"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:padding="2dp">
+
+            <LinearLayout android:id="@+id/panel_text" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content">
+
+                <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:gravity="center_vertical">
+                    <EditText android:id="@+id/ed_text_value" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:hint="@string/text_hint" android:singleLine="true" />
+                    <Button android:id="@+id/ed_add_text" android:layout_width="wrap_content" android:layout_height="wrap_content" android:minWidth="40dp" android:paddingLeft="6dp" android:paddingRight="6dp" android:text="+" />
+                    <Button android:id="@+id/ed_del_text" android:layout_width="wrap_content" android:layout_height="wrap_content" android:minWidth="40dp" android:paddingLeft="6dp" android:paddingRight="6dp" android:text="×" />
+                </LinearLayout>
+
+                <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                    <Spinner android:id="@+id/ed_text_color" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" />
+                    <Spinner android:id="@+id/ed_text_font" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:gravity="center_vertical">
+                    <TextView android:id="@+id/ed_size_label" android:layout_width="wrap_content" android:layout_height="wrap_content" android:minWidth="52dp" android:text="Size" android:textSize="11sp" android:textColor="#cccccc" />
+                    <SeekBar android:id="@+id/ed_text_size" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:max="120" />
+                </LinearLayout>
+
+                <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:gravity="center_vertical">
+                    <TextView android:id="@+id/ed_stroke_label" android:layout_width="wrap_content" android:layout_height="wrap_content" android:minWidth="52dp" android:text="Stroke" android:textSize="11sp" android:textColor="#cccccc" />
+                    <SeekBar android:id="@+id/ed_text_stroke" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:max="20" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout android:id="@+id/panel_crop" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:visibility="gone">
+                <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                    <Button android:id="@+id/ed_apply_crop" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/action_apply" />
+                    <Button android:id="@+id/ed_cancel_crop" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/cancel" />
+                    <Button android:id="@+id/ed_reset_crop" android:layout_width="wrap_content" android:layout_height="wrap_content" android:minWidth="40dp" android:paddingLeft="6dp" android:paddingRight="6dp" android:text="@string/reset" />
+                </LinearLayout>
+                <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                    <Button android:id="@+id/ed_rot90" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/rotate_90" />
+                    <Button android:id="@+id/ed_flip_h" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/flip_h" />
+                    <Button android:id="@+id/ed_flip_v" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/flip_v" />
+                </LinearLayout>
+                <CheckBox android:id="@+id/ed_stretch_mode" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/stretch_mode" android:textColor="#cccccc" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <Button android:id="@+id/ed_cancel" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/cancel" />
+        <Button android:id="@+id/ed_done" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/done" />
+    </LinearLayout>
+</LinearLayout>

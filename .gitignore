@@ -1,0 +1,21 @@
+# Build outputs
+bin/
+gen/
+out/
+build/
+
+# Local / signing (do not commit)
+local.properties
+*.keystore
+*.jks
+
+# IDE / OS
+.idea/
+*.iml
+.gradle/
+.DS_Store
+Thumbs.db
+*.log
+
+# Keep release APKs out of git history; publish them via GitHub Releases instead.
+# (If you want one tracked, remove the bin/ rule above and force-add the specific file.)

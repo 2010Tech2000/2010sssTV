@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent" android:padding="4dp">
+  <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content">
+    <LinearLayout android:orientation="vertical" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content">
+      <Button android:id="@+id/btn_toggle_rx" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Pause" />
+      <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <Button android:id="@+id/btn_wav_rx" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="WAV" />
+        <Button android:id="@+id/btn_save_rx" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Save" />
+      </LinearLayout>
+    </LinearLayout>
+    <ImageView android:id="@+id/rx_image" android:layout_width="0dp" android:layout_weight="1" android:layout_height="fill_parent" android:minHeight="96dp" android:scaleType="fitCenter" android:adjustViewBounds="true" android:background="#101010" />
+  </LinearLayout>
+  <TextView android:id="@+id/rx_status" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Listening..." android:textSize="12sp" />
+  <TextView android:id="@+id/rx_mode" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Mode: auto" android:textSize="12sp" />
+  <FrameLayout android:layout_width="fill_parent" android:layout_height="0dp" android:layout_weight="1" android:background="#000000">
+    <ImageView android:id="@+id/rx_scope" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="fitCenter" android:adjustViewBounds="false" />
+  </FrameLayout>
+</LinearLayout>
