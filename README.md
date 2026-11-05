@@ -1,6 +1,6 @@
 # 2010sssTV
 
-SSTV (Slow Scan Television) receive + transmit app for legacy Android (API 7–10 / Android 2.1–2.3.3), `om.sstvandroid2` v0.4.0. Tested on Samsung Galaxy S3 mini (GT-I8190).
+SSTV (Slow Scan Television) receive + transmit app for legacy Android (API 7–10 / Android 2.1–2.3.3), `om.sstvandroid2` v0.4.0.
 
 ## Features
 - **Receive:** Robot36 decoder — live from microphone or decode a **WAV** file; scope + decoded image; saves PNG to `/sdcard/SSTV/`.
