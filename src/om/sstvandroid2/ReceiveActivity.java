@@ -45,6 +45,7 @@ public class ReceiveActivity extends Activity implements AudioSource.AudioDataLi
     private static final long SCOPE_MIN_MS = 1000;
     private int mLastScopeLine = -1, mLastImageLine = -1, mLastImageW = -1, mLastImageH = -1;
     private int[] mScopeScratch;
+    private int mScopeUpdateCounter;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
