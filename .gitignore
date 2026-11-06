@@ -19,3 +19,7 @@ Thumbs.db
 
 # Keep release APKs out of git history; publish them via GitHub Releases instead.
 # (If you want one tracked, remove the bin/ rule above and force-add the specific file.)
+
+# Release screenshots (uploaded to GitHub Releases)
+images/
+
