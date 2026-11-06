@@ -28,14 +28,17 @@ public class ComplexConvolution {
 		imag[pos] = input.imag;
 		if (++pos >= length)
 			pos = 0;
-		sum.real = 0;
-		sum.imag = 0;
-		for (float tap : taps) {
-			sum.real += tap * real[pos];
-			sum.imag += tap * imag[pos];
-			if (++pos >= length)
-				pos = 0;
+		float sr = 0, si = 0;
+		int p = pos;
+		for (int i = 0; i < length; ++i) {
+			float tap = taps[i];
+			sr += tap * real[p];
+			si += tap * imag[p];
+			if (++p >= length)
+				p = 0;
 		}
+		sum.real = sr;
+		sum.imag = si;
 		return sum;
 	}
 }

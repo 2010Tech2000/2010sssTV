@@ -41,9 +41,11 @@ abstract class AudioRecordSource extends WorkerAudioSource {
 				throw new IOException("AudioRecord did not start");
 		}
 		int channelCount = getFormat().getChannels();
-		int count = Math.max(1, getFormat().getSampleRate() / 50) * channelCount;
+		int rate = getFormat().getSampleRate();
+		int count = Math.max(1, rate / 50) * channelCount;
 		float[] pcm = new float[count];
 		short[] shorts = new short[count];
+		long start = System.nanoTime(), framesSent = 0;
 		while (!cancelled()) {
 			int n = record.read(shorts, 0, count);
 			if (cancelled()) break;
@@ -51,7 +53,18 @@ abstract class AudioRecordSource extends WorkerAudioSource {
 			if (n == 0) continue;
 			if (n % channelCount != 0) throw new IOException("Incomplete AudioRecord frame");
 			for (int i = 0; i < n; ++i) pcm[i] = shorts[i] / 32768.0f;
-			emit(pcm, n / channelCount);
+			int frames = n / channelCount;
+			emit(pcm, frames);
+			framesSent += frames;
+			long deadline = start + (framesSent * 1000000000L) / rate;
+			try {
+				long remaining;
+				while (!cancelled() && (remaining = deadline - System.nanoTime()) > 0)
+					java.util.concurrent.TimeUnit.NANOSECONDS.sleep(remaining);
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
+				throw new java.io.InterruptedIOException("Audio capture cancelled");
+			}
 		}
 	}
 
