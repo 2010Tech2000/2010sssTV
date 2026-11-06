@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Decoder {
+    public static volatile long dbgSyncPulses, dbgHeaders, dbgFallback, dbgNewLines;
 
 	private final SimpleMovingAverage pulseFilter;
 	private final Demodulator demodulator;

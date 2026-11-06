@@ -177,7 +177,6 @@ public class ReceiveActivity extends Activity implements AudioSource.AudioDataLi
 
     private void postUi() {
         if (mUiPosted) return; mUiPosted = true;
-        mLastUiMs = android.os.SystemClock.uptimeMillis();
         mHandler.post(new Runnable(){ public void run(){
             mUiPosted = false;
             Bitmap sb=null, ib=null; String mode=""; long frames=0, images=0; int iw=0, ih=0;
@@ -185,7 +184,6 @@ public class ReceiveActivity extends Activity implements AudioSource.AudioDataLi
                 mode = mModeName; frames = mFrames; images = mImages; iw = mImage!=null?mImage.width:0; ih = mImage!=null?mImage.height:0;
                 if (mNewScope && mScope != null) {
                     mNewScope = false;
-                    mLastScopeMs = android.os.SystemClock.uptimeMillis();
                     int w = mScope.width, h = mScope.height/2;
                     if (w > 0 && h > 0) {
                         if (mScopeBmp == null || mScopeBmp.getWidth()!=w || mScopeBmp.getHeight()!=h) mScopeBmp = Bitmap.createBitmap(w,h,Bitmap.Config.ARGB_8888);
@@ -209,8 +207,7 @@ public class ReceiveActivity extends Activity implements AudioSource.AudioDataLi
                     mImageBmp.setPixels(mImage.pixels, 0, iw, 0, 0, iw, ih); ib = mImageBmp;
                 }
             }
-            if (mode != null && mode.length() > 0) mMode.setText("Mode: " + mode + (iw>0?" "+iw+"x"+ih:"") + "  img:" + images);
-
+            if (mode != null && mode.length() > 0) mMode.setText("Mode: " + mode + (iw>0?" "+iw+"x"+ih:"") + "  img:" + images + "  sync:" + Decoder.dbgSyncPulses + " hdr:" + Decoder.dbgHeaders + " fb:" + Decoder.dbgFallback + " nl:" + Decoder.dbgNewLines);
             if (sb != null) mScopeView.setImageBitmap(sb);
             if (ib != null) mImageView.setImageBitmap(ib);
         }});
