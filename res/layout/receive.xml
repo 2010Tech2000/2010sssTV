@@ -14,6 +14,6 @@
   <TextView android:id="@+id/rx_status" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Listening..." android:textSize="12sp" />
   <TextView android:id="@+id/rx_mode" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Mode: auto" android:textSize="12sp" />
   <FrameLayout android:layout_width="fill_parent" android:layout_height="0dp" android:layout_weight="1" android:background="#000000">
-    <ImageView android:id="@+id/rx_scope" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="fitCenter" android:adjustViewBounds="false" />
+    <ImageView android:id="@+id/rx_scope" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="fitXY" android:adjustViewBounds="false" />
   </FrameLayout>
 </LinearLayout>
