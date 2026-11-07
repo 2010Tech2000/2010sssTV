@@ -112,9 +112,9 @@ public class EditImageActivity extends Activity {
             bind(R.id.ed_cancel_crop, new View.OnClickListener(){ public void onClick(View v){ hideIme(); cancelCropEdits(); }});
             bind(R.id.ed_rot90, new View.OnClickListener(){ public void onClick(View v){ mCanvas.rotate90(); }});
 bind(R.id.ed_rot270, new View.OnClickListener(){ public void onClick(View v){ mCanvas.rotate270(); }});
-setTransformedIcon(R.id.ed_rot270, android.R.drawable.ic_menu_rotate, 0f, true);
-            bind(R.id.ed_flip_h, new View.OnClickListener(){ public void onClick(View v){ mCanvas.flipH(); }});
-            bind(R.id.ed_flip_v, new View.OnClickListener(){ public void onClick(View v){ mCanvas.flipV(); }});
+bind(R.id.ed_flip_h, new View.OnClickListener(){ public void onClick(View v){ mCanvas.flipH(); }});
+bind(R.id.ed_flip_v, new View.OnClickListener(){ public void onClick(View v){ mCanvas.flipV(); }});
+
 
             if (mStretch != null) mStretch.setOnCheckedChangeListener(new android.widget.CompoundButton.OnCheckedChangeListener(){
                 public void onCheckedChanged(android.widget.CompoundButton b, boolean checked){
@@ -162,25 +162,8 @@ setTransformedIcon(R.id.ed_rot270, android.R.drawable.ic_menu_rotate, 0f, true);
         }
     }
 
-    private void setTransformedIcon(int id, int drawableRes, float degrees, boolean horizontalFlip) {
-    View v = findViewById(id);
-    if (!(v instanceof Button)) return;
-    Button b = (Button) v;
-    Drawable d = getResources().getDrawable(drawableRes);
-    if (d == null) return;
-    int w = d.getIntrinsicWidth();
-    int h = d.getIntrinsicHeight();
-    if (w <= 0 || h <= 0) return;
-    Bitmap src = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-    android.graphics.Canvas c = new android.graphics.Canvas(src);
-    d.setBounds(0, 0, w, h);
-    d.draw(c);
-    Matrix m = new Matrix();
-    if (horizontalFlip) m.setScale(-1f, 1f, w / 2f, h / 2f);
-    else m.setRotate(degrees, w / 2f, h / 2f);
-    Bitmap out = Bitmap.createBitmap(src, 0, 0, w, h, m, true);
-    b.setCompoundDrawablesWithIntrinsicBounds(null, new BitmapDrawable(getResources(), out), null, null);
-} private ArrayAdapter simple(String[] a){ ArrayAdapter ad=new ArrayAdapter(this, android.R.layout.simple_spinner_item, a); ad.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); return ad; }
+    private ArrayAdapter simple(String[] a){ ArrayAdapter ad=new ArrayAdapter(this, android.R.layout.simple_spinner_item, a); ad.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); return ad; }
+
     private void bind(int id, View.OnClickListener l){ View v=findViewById(id); if (v!=null) v.setOnClickListener(l); }
     private Bitmap copy(Bitmap b){ try { return b.copy(b.getConfig()!=null?b.getConfig():Bitmap.Config.ARGB_8888, true);} catch(Throwable t){ return Bitmap.createBitmap(b); } }
 
