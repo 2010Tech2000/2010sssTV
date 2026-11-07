@@ -1,6 +1,7 @@
 package com.sstv2010;
 
 import android.app.Activity;
+import android.app.WallpaperManager;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -43,6 +44,7 @@ public class TransmitActivity extends Activity {
     private ProgressBar mProgress;
     private IModeInfo[] mModes;
     private Bitmap mSource, mBitmap;
+private boolean mPlaceholder;
     private final Handler mHandler = new Handler();
     private volatile boolean mStop, mBusy, mPaused, mSavingWav;
     private volatile long mSamplesWritten, mTotalSamples;
@@ -97,14 +99,67 @@ public class TransmitActivity extends Activity {
             mPlay.setOnClickListener(new View.OnClickListener(){ public void onClick(View v){ if (!mBusy) startTx(false); } });
             mSaveWav.setOnClickListener(new View.OnClickListener(){ public void onClick(View v){ if (!mBusy) startTx(true); } });
             mStopBtn.setOnClickListener(new View.OnClickListener(){ public void onClick(View v){ stopTx(); } });
-            refreshButtons();
-            setStatus("Insert an image to begin.");
+refreshButtons();
+tryLoadPlaceholder();
+setStatus("Insert an image to begin.");
         } catch (Throwable e) {
             android.util.Log.e("SSTVAndroid2", "TX onCreate", e);
             TextView t = new TextView(this); t.setText("TX init error: " + e); setContentView(t);
         }
     }
 
+private void tryLoadPlaceholder() {
+    if (mSource != null) return;
+    java.util.ArrayList cands = new java.util.ArrayList();
+    try { cands.add(WallpaperManager.getInstance(this).getDrawable()); } catch (Throwable ignore) {}
+    String[] dirs = new String[]{"/system/media/wallpapers","/system/wallpapers","/data/system/users/0"};
+    for (int d = 0; d < dirs.length; d++) {
+        try {
+            java.io.File dir = new java.io.File(dirs[d]);
+            java.io.File[] fs = dir.listFiles();
+            if (fs == null) continue;
+            for (int i = 0; i < fs.length; i++) {
+                String n = fs[i].getName().toLowerCase();
+                if (n.endsWith(".jpg") || n.endsWith(".jpeg") || n.endsWith(".png")) {
+                    Bitmap b = BitmapFactory.decodeFile(fs[i].getAbsolutePath());
+                    if (b != null) cands.add(new android.graphics.drawable.BitmapDrawable(b));
+                }
+            }
+        } catch (Throwable ignore) {}
+    }
+    try { Bitmap b = BitmapFactory.decodeFile("/system/media/wallpapers/default_wallpaper.jpg"); if (b != null) cands.add(new android.graphics.drawable.BitmapDrawable(b)); } catch (Throwable ignore) {}
+    try { Bitmap b = BitmapFactory.decodeFile("/system/media/wallpapers/default_wallpaper.png"); if (b != null) cands.add(new android.graphics.drawable.BitmapDrawable(b)); } catch (Throwable ignore) {}
+    if (cands.isEmpty()) return;
+    java.util.Collections.shuffle(cands);
+    for (int i = 0; i < cands.size(); i++) {
+        Object o = cands.get(i);
+        android.graphics.drawable.Drawable d = null;
+        if (o instanceof android.graphics.drawable.Drawable) d = (android.graphics.drawable.Drawable) o;
+        if (d == null) continue;
+        int w = d.getIntrinsicWidth();
+        int h = d.getIntrinsicHeight();
+        if (w < 320 || h < 240) continue;
+        try {
+            Bitmap b = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+            android.graphics.Canvas cv = new android.graphics.Canvas(b);
+            d.setBounds(0, 0, w, h);
+            d.draw(cv);
+            int[] wh = modeWH();
+            int targetW = wh[0], targetH = wh[1];
+            int x = Math.max(0, (w - targetW) / 2);
+            int y = Math.max(0, (h - targetH) / 2);
+            int cw = Math.min(targetW, w - x);
+            int ch = Math.min(targetH, h - y);
+            if (cw > 0 && ch > 0 && (cw != w || ch != h)) b = Bitmap.createBitmap(b, x, y, cw, ch);
+            mSource = b;
+            mPlaceholder = true;
+            rescaleForMode();
+            if (mImage != null) mImage.setAlpha(80);
+            refreshButtons();
+            return;
+        } catch (Throwable ignore) {}
+    }
+}
     private void pick() {
         try {
             Intent i = new Intent(Intent.ACTION_GET_CONTENT);
@@ -130,9 +185,9 @@ public class TransmitActivity extends Activity {
                 InputStream in = getContentResolver().openInputStream(uri);
                 Bitmap raw = BitmapFactory.decodeStream(in);
                 if (in != null) in.close();
-                if (raw != null) {
-                    TxImageStore.clearEdit(); // new image => drop old editable state
-                    mSource = raw; rescaleForMode(); refreshButtons(); resetProgressUi();
+if (raw != null) {
+    TxImageStore.clearEdit(); // new image => drop old editable state
+    mSource = raw; mPlaceholder = false; if (mImage != null) mImage.setAlpha(255); rescaleForMode(); refreshButtons(); resetProgressUi();
                 }
                 else toast("Image load failed");
             } catch (Exception e) { toast("Image load failed"); }
@@ -167,13 +222,16 @@ public class TransmitActivity extends Activity {
 
     private void refreshButtons() {
         boolean has = (mSource != null);
-        if (mInsert != null) mInsert.setVisibility(has ? View.GONE : View.VISIBLE);
+        if (mInsert != null) {
+    if (mPlaceholder) { mInsert.setVisibility(View.VISIBLE); mInsert.setEnabled(!mBusy); }
+    else { mInsert.setVisibility(has ? View.GONE : View.VISIBLE); mInsert.setEnabled(!mBusy); }
+}
+if (mReplace != null) mReplace.setEnabled(has && !mBusy && !mPlaceholder);
         if (mImage != null) mImage.setVisibility(has ? View.VISIBLE : View.INVISIBLE);
         if (mMode != null) mMode.setEnabled(!mBusy);
         if (mIdleActions != null) mIdleActions.setVisibility(mBusy ? View.GONE : View.VISIBLE);
         if (mStopBtn != null) mStopBtn.setVisibility(mBusy ? View.VISIBLE : View.GONE);
-        setEnabledSafe(mEdit, has && !mBusy);
-        setEnabledSafe(mReplace, has && !mBusy);
+        setEnabledSafe(mEdit, has && !mBusy && !mPlaceholder);
         setEnabledSafe(mPlay, has && !mBusy);
         setEnabledSafe(mSaveWav, has && !mBusy);
         if (mStopBtn != null) mStopBtn.setEnabled(mBusy);
@@ -320,6 +378,7 @@ public class TransmitActivity extends Activity {
 
     private void runMode(final IMode mode, final String label, final boolean saveWav) {
         mStop = false; mBusy = true; mPaused = false; mSavingWav = saveWav;
+if (mPlaceholder && mImage != null) mImage.setAlpha(255);
         mSamplesWritten = 0; mTotalSamples = 0; mCurrentLine = 0; mTotalLines = mBitmap!=null?mBitmap.getHeight():0;
         mCurrentMode = mode;
         refreshButtons();
