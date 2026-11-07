@@ -4,7 +4,7 @@ Kaiser window
 Copyright 2024 Ahmet Inan <xdsopl@gmail.com>
 */
 
-package om.sstvandroid2;
+package com.sstv2010;
 
 import java.util.Arrays;
 

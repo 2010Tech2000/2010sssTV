@@ -1,4 +1,4 @@
-package om.sstvandroid2.Output;
+package com.sstv2010.Output;
 
 import android.content.ContentResolver;
 import android.os.Environment;

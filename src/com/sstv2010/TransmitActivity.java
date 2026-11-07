@@ -1,4 +1,4 @@
-package om.sstvandroid2;
+package com.sstv2010;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -20,13 +20,13 @@ import android.widget.Toast;
 
 import java.io.InputStream;
 
-import om.sstvandroid2.ModeInterfaces.IMode;
-import om.sstvandroid2.ModeInterfaces.IModeInfo;
-import om.sstvandroid2.Modes.ModeFactory;
-import om.sstvandroid2.Output.AudioOutput;
-import om.sstvandroid2.Output.IOutput;
-import om.sstvandroid2.Output.WaveFileOutput;
-import om.sstvandroid2.Output.WaveFileOutputContext;
+import com.sstv2010.ModeInterfaces.IMode;
+import com.sstv2010.ModeInterfaces.IModeInfo;
+import com.sstv2010.Modes.ModeFactory;
+import com.sstv2010.Output.AudioOutput;
+import com.sstv2010.Output.IOutput;
+import com.sstv2010.Output.WaveFileOutput;
+import com.sstv2010.Output.WaveFileOutputContext;
 
 public class TransmitActivity extends Activity {
     private static final int REQ_PICK = 101;
@@ -149,7 +149,7 @@ public class TransmitActivity extends Activity {
     private int[] modeWH() {
         int idx = (mMode!=null)?mMode.getSelectedItemPosition():0; if (idx<0) idx=0;
         Class cls = modeClassAt(idx);
-        om.sstvandroid2.ModeInterfaces.ModeSize sz = cls==null?null:(om.sstvandroid2.ModeInterfaces.ModeSize) cls.getAnnotation(om.sstvandroid2.ModeInterfaces.ModeSize.class);
+        com.sstv2010.ModeInterfaces.ModeSize sz = cls==null?null:(com.sstv2010.ModeInterfaces.ModeSize) cls.getAnnotation(com.sstv2010.ModeInterfaces.ModeSize.class);
         return new int[]{ sz!=null?sz.width():320, sz!=null?sz.height():256 };
     }
 
@@ -232,7 +232,7 @@ public class TransmitActivity extends Activity {
         if (mBitmap == null) { toast("Pick an image first"); return null; }
         int idx = mMode.getSelectedItemPosition(); if (idx<0) idx=0;
         Class cls = modeClassAt(idx);
-        om.sstvandroid2.ModeInterfaces.ModeSize sz = cls==null?null:(om.sstvandroid2.ModeInterfaces.ModeSize) cls.getAnnotation(om.sstvandroid2.ModeInterfaces.ModeSize.class);
+        com.sstv2010.ModeInterfaces.ModeSize sz = cls==null?null:(com.sstv2010.ModeInterfaces.ModeSize) cls.getAnnotation(com.sstv2010.ModeInterfaces.ModeSize.class);
         Bitmap bmp = mBitmap;
         if (sz != null && (bmp.getWidth() != sz.width() || bmp.getHeight() != sz.height())) {
             // Fit (preserve aspect) into mode resolution, centered on black — no stretching.

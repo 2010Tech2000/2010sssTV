@@ -4,7 +4,7 @@ Robot 36 Color
 Copyright 2024 Ahmet Inan <xdsopl@gmail.com>
 */
 
-package om.sstvandroid2;
+package com.sstv2010;
 
 public class Robot_36_Color extends BaseMode {
 	private final ExponentialMovingAverage lowPassFilter;

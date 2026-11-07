@@ -4,7 +4,7 @@ Decoder for RGB modes
 Copyright 2024 Ahmet Inan <xdsopl@gmail.com>
 */
 
-package om.sstvandroid2;
+package com.sstv2010;
 
 public class RGBDecoder extends BaseMode {
 	private final ExponentialMovingAverage lowPassFilter;

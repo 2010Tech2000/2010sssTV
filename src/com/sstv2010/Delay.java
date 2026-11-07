@@ -4,7 +4,7 @@ Digital delay line
 Copyright 2024 Ahmet Inan <xdsopl@gmail.com>
 */
 
-package om.sstvandroid2;
+package com.sstv2010;
 
 public class Delay {
 	public final int length;

@@ -1,4 +1,4 @@
-package om.sstvandroid2;
+package com.sstv2010;
 
 import android.app.Activity;
 import android.content.Intent;

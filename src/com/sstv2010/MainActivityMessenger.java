@@ -13,11 +13,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-package om.sstvandroid2;
+package com.sstv2010;
 
 import android.os.Handler;
 
-import om.sstvandroid2.Output.WaveFileOutputContext;
+import com.sstv2010.Output.WaveFileOutputContext;
 
 class MainActivityMessenger {
     private final android.app.Activity mMainActivity;

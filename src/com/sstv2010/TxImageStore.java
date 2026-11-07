@@ -1,4 +1,4 @@
-package om.sstvandroid2;
+package com.sstv2010;
 
 import android.graphics.Bitmap;
 import java.util.ArrayList;

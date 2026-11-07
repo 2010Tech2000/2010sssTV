@@ -1,4 +1,4 @@
-package om.sstvandroid2;
+package com.sstv2010;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -322,6 +322,7 @@ public class EditorCanvasView extends View {
     }
 
     public Bitmap rotate90() { return transform(new Matrix(){{ postRotate(90); }}); }
+public Bitmap rotate270() { return transform(new Matrix(){{ postRotate(270); }}); }
     public Bitmap flipH() { Matrix m=new Matrix(); m.setScale(-1,1,mBase!=null?mBase.getWidth()/2f:0,0); return transform(m); }
     public Bitmap flipV() { Matrix m=new Matrix(); m.setScale(1,-1,0,mBase!=null?mBase.getHeight()/2f:0); return transform(m); }
     private Bitmap transform(Matrix op) {

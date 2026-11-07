@@ -1,4 +1,4 @@
-package om.sstvandroid2;
+package com.sstv2010;
 
 import java.io.BufferedInputStream;
 import java.io.EOFException;

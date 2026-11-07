@@ -4,7 +4,7 @@ Fast Fourier Transform
 Copyright 2025 Ahmet Inan <xdsopl@gmail.com>
 */
 
-package om.sstvandroid2;
+package com.sstv2010;
 
 public class FastFourierTransform {
 	private final Complex[] tf;

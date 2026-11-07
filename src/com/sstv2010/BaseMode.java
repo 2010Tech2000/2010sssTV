@@ -4,7 +4,7 @@ Base class for all modes
 Copyright 2025 Marek Ossowski <marek0ossowski@gmail.com>
 */
 
-package om.sstvandroid2;
+package com.sstv2010;
 
 import android.graphics.Bitmap;
 

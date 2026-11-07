@@ -13,12 +13,12 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-package om.sstvandroid2.Modes;
+package com.sstv2010.Modes;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
 
-import om.sstvandroid2.Output.IOutput;
+import com.sstv2010.Output.IOutput;
 
 abstract class Martin extends Mode {
     private final int mSyncPulseSamples;

@@ -4,7 +4,7 @@ FIR Filter
 Copyright 2024 Ahmet Inan <xdsopl@gmail.com>
 */
 
-package om.sstvandroid2;
+package com.sstv2010;
 
 public final class Filter {
 	public static double sinc(double x) {

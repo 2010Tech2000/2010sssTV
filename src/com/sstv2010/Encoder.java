@@ -13,19 +13,19 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-package om.sstvandroid2;
+package com.sstv2010;
 
 import android.graphics.Bitmap;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import om.sstvandroid2.ModeInterfaces.IMode;
-import om.sstvandroid2.ModeInterfaces.IModeInfo;
-import om.sstvandroid2.Modes.ModeFactory;
-import om.sstvandroid2.Output.IOutput;
-import om.sstvandroid2.Output.OutputFactory;
-import om.sstvandroid2.Output.WaveFileOutputContext;
+import com.sstv2010.ModeInterfaces.IMode;
+import com.sstv2010.ModeInterfaces.IModeInfo;
+import com.sstv2010.Modes.ModeFactory;
+import com.sstv2010.Output.IOutput;
+import com.sstv2010.Output.OutputFactory;
+import com.sstv2010.Output.WaveFileOutputContext;
 
 // Creates IMode instance
 class Encoder {

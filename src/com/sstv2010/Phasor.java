@@ -4,7 +4,7 @@ Numerically controlled oscillator
 Copyright 2024 Ahmet Inan <xdsopl@gmail.com>
 */
 
-package om.sstvandroid2;
+package com.sstv2010;
 
 public class Phasor {
 	private final Complex value;
