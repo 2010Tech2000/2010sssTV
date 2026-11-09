@@ -23,3 +23,4 @@ Thumbs.db
 # Release screenshots (uploaded to GitHub Releases)
 images/
 
+.kilo/

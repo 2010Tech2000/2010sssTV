@@ -3,11 +3,6 @@ package com.sstv2010;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Matrix;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Editable;
@@ -111,11 +106,6 @@ public class EditImageActivity extends Activity {
             bind(R.id.ed_del_text, new View.OnClickListener(){ public void onClick(View v){ hideIme(); if (!mCanvas.removeActiveItem()) setDefaults(true); }});
             bind(R.id.ed_apply_crop, new View.OnClickListener(){ public void onClick(View v){ hideIme(); try{ mCanvas.applyCrop(); } catch(Throwable t){ Toast.makeText(EditImageActivity.this,"Apply failed: "+t,Toast.LENGTH_SHORT).show(); } }});
             bind(R.id.ed_reset_crop, new View.OnClickListener(){ public void onClick(View v){ hideIme(); resetImageKeepText(); }});
-            setIcon(R.id.ed_flip_h, R.drawable.flip, 0);
-            setIcon(R.id.ed_flip_v, R.drawable.flip, 1);
-            setIcon(R.id.ed_rot90, R.drawable.rotate, 0);
-            setIcon(R.id.ed_rot270, R.drawable.rotate, 2);
-            setIcon(R.id.ed_reset_crop, R.drawable.reset, 0);
             bind(R.id.ed_cancel_crop, new View.OnClickListener(){ public void onClick(View v){ hideIme(); cancelCropEdits(); }});
             bind(R.id.ed_rot90, new View.OnClickListener(){ public void onClick(View v){ mCanvas.rotate90(); }});
 bind(R.id.ed_rot270, new View.OnClickListener(){ public void onClick(View v){ mCanvas.rotate270(); }});
@@ -171,87 +161,6 @@ bind(R.id.ed_flip_v, new View.OnClickListener(){ public void onClick(View v){ mC
 
     private ArrayAdapter simple(String[] a){ ArrayAdapter ad=new ArrayAdapter(this, android.R.layout.simple_spinner_item, a); ad.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); return ad; }
 
-
-    private void setIcon(int viewId, int resId, int transform) {
-        View v = findViewById(viewId);
-        if (!(v instanceof Button)) return;
-        Button b = (Button) v;
-        try {
-            Bitmap src = BitmapFactory.decodeResource(getResources(), resId);
-            if (src == null) return;
-            int S = 96;
-            int padX = 8;
-            int padTop = 8;
-            int iconSize = S - padX * 2;
-            Bitmap scaled = Bitmap.createScaledBitmap(src, iconSize, iconSize, false);
-            Bitmap high = Bitmap.createBitmap(S, S, Bitmap.Config.ARGB_8888);
-            android.graphics.Canvas hc = new android.graphics.Canvas(high);
-            if (transform == 1) {
-                hc.save();
-                hc.rotate(90, S / 2f, S / 2f);
-                hc.drawBitmap(scaled, padX, padTop, null);
-                hc.restore();
-            } else if (transform == 2) {
-                hc.save();
-                hc.scale(-1f, 1f, S / 2f, S / 2f);
-                hc.drawBitmap(scaled, padX, padTop, null);
-                hc.restore();
-            } else {
-                hc.drawBitmap(scaled, padX, padTop, null);
-            }
-            boolean[][] mask = new boolean[S][S];
-            for (int y = 0; y < S; y++)
-                for (int x = 0; x < S; x++)
-                    mask[y][x] = (high.getPixel(x, y) & 0xFF) != 0;
-
-            // shadow accumulator
-            float[][] sh = new float[S][S];
-            for (int y = 0; y < S; y++) {
-                for (int x = 0; x < S; x++) {
-                    if (!mask[y][x]) continue;
-                    for (int dy = -4; dy <= 4; dy++) {
-                        for (int dx = -4; dx <= 4; dx++) {
-                            int nx = x + dx + 2, ny = y + dy + 2;
-                            if (nx < 0 || ny < 0 || nx >= S || ny >= S) continue;
-                            double d2 = dx * dx + dy * dy;
-                            sh[ny][nx] += (float) Math.exp(-d2 / 4.0);
-                        }
-                    }
-                }
-            }
-
-            int[] out = new int[S * S];
-            for (int y = 0; y < S; y++) {
-                for (int x = 0; x < S; x++) {
-                    if (mask[y][x]) {
-                        out[y * S + x] = 0xFF848484;
-                    } else {
-                        // outline within 2px
-                        boolean ol = false;
-                        for (int dy = -2; dy <= 2 && !ol; dy++) {
-                            for (int dx = -2; dx <= 2 && !ol; dx++) {
-                                int nx = x + dx, ny = y + dy;
-                                if (nx < 0 || ny < 0 || nx >= S || ny >= S) continue;
-                                if (mask[ny][nx]) ol = true;
-                            }
-                        }
-                        if (ol) {
-                            out[y * S + x] = 0xFF202020;
-                        } else if (sh[y][x] > 100f) {
-                            int a = Math.min(200, (int) (sh[y][x] * 120));
-                            out[y * S + x] = (a << 24);
-                        } else {
-                            out[y * S + x] = 0;
-                        }
-                    }
-                }
-            }
-            Bitmap highBmp = Bitmap.createBitmap(S, S, Bitmap.Config.ARGB_8888);
-            highBmp.setPixels(out, 0, S, 0, 0, S, S);
-            Bitmap finalBmp = Bitmap.createScaledBitmap(highBmp, 48, 48, true);
-            b.setCompoundDrawablesWithIntrinsicBounds(null, new BitmapDrawable(getResources(), finalBmp), null, null);
-        } catch (Throwable ignore) {}
-    }
 
     private void bind(int id, View.OnClickListener l){ View v=findViewById(id); if (v!=null) v.setOnClickListener(l); }
     private Bitmap copy(Bitmap b){ try { return b.copy(b.getConfig()!=null?b.getConfig():Bitmap.Config.ARGB_8888, true);} catch(Throwable t){ return Bitmap.createBitmap(b); } }
