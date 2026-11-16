@@ -109,8 +109,9 @@ public class EditImageActivity extends Activity {
             bind(R.id.ed_reset_crop, new View.OnClickListener(){ public void onClick(View v){ hideIme(); resetImageKeepText(); }});
             bind(R.id.ed_cancel_crop, new View.OnClickListener(){ public void onClick(View v){ hideIme(); cancelCropEdits(); }});
             bind(R.id.ed_rot90, new View.OnClickListener(){ public void onClick(View v){ mCanvas.rotate90(); }});
-bind(R.id.ed_rot270, new View.OnClickListener(){ public void onClick(View v){ mCanvas.rotate270(); }});
-bind(R.id.ed_flip_h, new View.OnClickListener(){ public void onClick(View v){ mCanvas.flipH(); }});
+            bind(R.id.ed_rot270, new View.OnClickListener(){ public void onClick(View v){ mCanvas.rotate270(); }});
+            setupTransformIcons();
+            bind(R.id.ed_flip_h, new View.OnClickListener(){ public void onClick(View v){ mCanvas.flipH(); }});
 bind(R.id.ed_flip_v, new View.OnClickListener(){ public void onClick(View v){ mCanvas.flipV(); }});
 
 
@@ -166,6 +167,51 @@ bind(R.id.ed_flip_v, new View.OnClickListener(){ public void onClick(View v){ mC
 
 
     private void bind(int id, View.OnClickListener l){ View v=findViewById(id); if (v!=null) v.setOnClickListener(l); }
+
+    private void setupTransformIcons() {
+        try {
+            // rot270: flip horizontal
+            android.widget.ImageButton b270 = (android.widget.ImageButton) findViewById(R.id.ed_rot270);
+            if (b270 != null) {
+                android.graphics.Bitmap src = android.graphics.BitmapFactory.decodeResource(getResources(), R.drawable.ic_menu_rotate);
+                if (src != null) {
+                    android.graphics.Matrix m = new android.graphics.Matrix();
+                    m.preScale(-1, 1);
+                    android.graphics.Bitmap flipped = android.graphics.Bitmap.createBitmap(src, 0, 0, src.getWidth(), src.getHeight(), m, true);
+                    b270.setImageBitmap(flipped);
+                    b270.setScaleType(android.widget.ImageView.ScaleType.CENTER);
+                    b270.setPadding(0, 0, 0, 0);
+                }
+            }
+            // flip_h: compress vertical (scale Y by 0.75)
+            android.widget.ImageButton bFlipH = (android.widget.ImageButton) findViewById(R.id.ed_flip_h);
+            if (bFlipH != null) {
+                android.graphics.Bitmap src = android.graphics.BitmapFactory.decodeResource(getResources(), R.drawable.ic_menu_refresh);
+                if (src != null) {
+                    android.graphics.Matrix m = new android.graphics.Matrix();
+                    m.preScale(1f, 0.75f);
+                    android.graphics.Bitmap stretched = android.graphics.Bitmap.createBitmap(src, 0, 0, src.getWidth(), src.getHeight(), m, true);
+                    bFlipH.setImageBitmap(stretched);
+                    bFlipH.setScaleType(android.widget.ImageView.ScaleType.CENTER);
+                    bFlipH.setPadding(0, 0, 0, 0);
+                }
+            }
+            // flip_v: compress horizontal (scale X by 0.75)
+            android.widget.ImageButton bFlipV = (android.widget.ImageButton) findViewById(R.id.ed_flip_v);
+            if (bFlipV != null) {
+                android.graphics.Bitmap src = android.graphics.BitmapFactory.decodeResource(getResources(), R.drawable.ic_menu_refresh);
+                if (src != null) {
+                    android.graphics.Matrix m = new android.graphics.Matrix();
+                    m.preScale(0.75f, 1f);
+                    android.graphics.Bitmap stretched = android.graphics.Bitmap.createBitmap(src, 0, 0, src.getWidth(), src.getHeight(), m, true);
+                    bFlipV.setImageBitmap(stretched);
+                    bFlipV.setScaleType(android.widget.ImageView.ScaleType.CENTER);
+                    bFlipV.setPadding(0, 0, 0, 0);
+                }
+            }
+        } catch (Throwable ignore) {}
+    }
+
     private Bitmap copy(Bitmap b){ try { return b.copy(b.getConfig()!=null?b.getConfig():Bitmap.Config.ARGB_8888, true);} catch(Throwable t){ return Bitmap.createBitmap(b); } }
 
     private void showText(){
