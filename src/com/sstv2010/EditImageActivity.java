@@ -47,6 +47,7 @@ public class EditImageActivity extends Activity {
         super.onCreate(savedInstanceState);
         try {
             setContentView(R.layout.edit_image);
+            UiTheme.applyGlobalBackground(this);
             mTargetW = getIntent().getIntExtra("mode_w", 320);
             mTargetH = getIntent().getIntExtra("mode_h", 256);
             mCanvas = (EditorCanvasView) findViewById(R.id.ed_canvas);
@@ -158,6 +159,8 @@ bind(R.id.ed_flip_v, new View.OnClickListener(){ public void onClick(View v){ mC
             finish();
         }
     }
+
+    protected void onResume() { super.onResume(); UiTheme.applyGlobalBackground(this); }
 
     private ArrayAdapter simple(String[] a){ ArrayAdapter ad=new ArrayAdapter(this, android.R.layout.simple_spinner_item, a); ad.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); return ad; }
 

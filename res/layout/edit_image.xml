@@ -3,7 +3,7 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#000000"
+    android:background="@android:color/transparent"
     android:focusable="true"
     android:focusableInTouchMode="true">
 
@@ -19,7 +19,7 @@
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="#000000">
+        android:background="@android:color/transparent">
         <com.sstv2010.EditorCanvasView
             android:id="@+id/ed_canvas"
             android:layout_width="fill_parent"

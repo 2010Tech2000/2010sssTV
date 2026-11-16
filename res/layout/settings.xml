@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+  <ScrollView
+      android:layout_width="fill_parent"
+      android:layout_height="0dp"
+      android:layout_weight="1"
+      android:descendantFocusability="beforeDescendants"
+      android:focusableInTouchMode="true">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp">
+
+      <TextView
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:text="@string/settings_title"
+          android:textStyle="bold"
+          android:textSize="18sp"
+          android:paddingBottom="8dp" />
+
+      <CheckBox
+          android:id="@+id/set_auto_save_rx"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:text="@string/settings_auto_save_rx" />
+
+      <TextView
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:text="@string/settings_rx_dir"
+          android:paddingTop="10dp" />
+      <LinearLayout
+          android:orientation="horizontal"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/set_rx_dir"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:ellipsize="start"
+            android:inputType="textUri" />
+        <Button
+            android:id="@+id/set_browse_rx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/browse" />
+      </LinearLayout>
+      <TextView
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:text="@string/settings_rx_dir_hint"
+          android:textSize="11sp" />
+
+      <TextView
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:text="@string/settings_tx_dir"
+          android:paddingTop="10dp" />
+      <LinearLayout
+          android:orientation="horizontal"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/set_tx_dir"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:ellipsize="start"
+            android:inputType="textUri" />
+        <Button
+            android:id="@+id/set_browse_tx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/browse" />
+      </LinearLayout>
+      <TextView
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:text="@string/settings_tx_dir_hint"
+          android:textSize="11sp" />
+
+      <TextView
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:text="@string/settings_bg"
+          android:paddingTop="10dp" />
+      <Spinner
+          android:id="@+id/set_bg"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content" />
+
+      <TextView
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:text="@string/settings_custom_bg"
+          android:paddingTop="10dp" />
+      <LinearLayout
+          android:orientation="horizontal"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/set_custom_bg"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:hint="#RRGGBB or #AARRGGBB"
+            android:inputType="textCapCharacters" />
+        <Button
+            android:id="@+id/set_apply_custom_bg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/apply" />
+      </LinearLayout>
+
+      <TextView
+          android:id="@+id/set_app_dir"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:text=""
+          android:textSize="11sp"
+          android:paddingTop="12dp" />
+
+    </LinearLayout>
+  </ScrollView>
+
+  <LinearLayout
+      android:orientation="horizontal"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:padding="12dp"
+      android:gravity="center_vertical">
+    <Button
+        android:id="@+id/set_reset"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:text="@string/settings_reset_btn" />
+    <Button
+        android:id="@+id/set_save"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:text="@string/settings_save_btn" />
+  </LinearLayout>
+</LinearLayout>

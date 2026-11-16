@@ -54,11 +54,13 @@ private boolean mPlaceholder;
     private AudioOutput mAudioOut;
     private volatile boolean mAudioMode;
     private Thread mTxThread;
+    private volatile WaveFileOutputContext mWavCtx;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         try {
             setContentView(R.layout.transmit);
+            UiTheme.applyGlobalBackground(this);
             mImage = (ImageView) findViewById(R.id.tx_image);
             mUnsent = findViewById(R.id.tx_unsent_mask);
             mImageContainer = findViewById(R.id.tx_image_container);
@@ -317,14 +319,18 @@ if (mReplace != null) mReplace.setEnabled(has && !mBusy && !mPlaceholder);
         final String label;
         try {
             if (saveWav) {
-                WaveFileOutputContext ctx = new WaveFileOutputContext(getContentResolver(), "sstv_" + System.currentTimeMillis() + ".wav");
+                WaveFileOutputContext ctx = new WaveFileOutputContext(TransmitActivity.this, "sstv_" + System.currentTimeMillis() + ".wav");
                 realOut = new WaveFileOutput(ctx, SAMPLE_RATE);
                 mAudioOut = null; mAudioMode = false;
                 label = "Saving WAV: " + ctx.getFileName();
+                final WaveFileOutputContext fctx = ctx;
+                // scan after save will be handled in completion path via stored ref not needed; simpler: store
+                mWavCtx = fctx;
             } else {
                 AudioOutput ao = new AudioOutput(SAMPLE_RATE);
                 realOut = ao; mAudioOut = ao; mAudioMode = true;
                 label = "Transmitting";
+                mWavCtx = null;
             }
         } catch (Throwable t){ setStatus("Output error: "+t); return; }
 
@@ -428,6 +434,9 @@ if (mPlaceholder && mImage != null) mImage.setAlpha(255);
                                 if (mProgressText!=null) mProgressText.setText("100%");
                                 applyMask(1f, false);
                                 setStatus("Done  " + fmtSec(((double)total)/SAMPLE_RATE));
+                                if (saveWav && mWavCtx != null) {
+                                    try { StoragePaths.scanFile(TransmitActivity.this, mWavCtx.getFile(), "audio/wav"); } catch(Throwable ignore){}
+                                }
                             } else if (fstop) {
                                 if (mProgress!=null) mProgress.setProgress(0);
                                 if (mProgressText!=null) mProgressText.setText("0%");
@@ -468,5 +477,6 @@ if (mPlaceholder && mImage != null) mImage.setAlpha(255);
 
     private void setStatus(final String s){ if (mStatus!=null) mStatus.setText(s); }
     private void toast(final String s){ Toast.makeText(this, s, Toast.LENGTH_SHORT).show(); }
+    protected void onResume(){ super.onResume(); UiTheme.applyGlobalBackground(this); }
     protected void onDestroy(){ mStop = true; stopTicker(); super.onDestroy(); }
 }

@@ -1,25 +1,22 @@
 package com.sstv2010;
 
 import android.app.Activity;
-import android.content.ContentValues;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.AudioFormat;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
-import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.content.Intent;
-import java.io.InputStream;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.Arrays;
 
 public class ReceiveActivity extends Activity implements AudioSource.AudioDataListener {
@@ -46,10 +43,12 @@ public class ReceiveActivity extends Activity implements AudioSource.AudioDataLi
     private int mLastScopeLine = -1, mLastImageLine = -1, mLastImageW = -1, mLastImageH = -1;
     private int[] mScopeScratch;
     private int mScopeUpdateCounter;
+    private volatile long mLastAutoSavedImage = -1;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.receive);
+        UiTheme.applyGlobalBackground(this);
         mStatus = (TextView) findViewById(R.id.rx_status);
         mMode = (TextView) findViewById(R.id.rx_mode);
         mScopeView = (ImageView) findViewById(R.id.rx_scope);
@@ -76,6 +75,7 @@ public class ReceiveActivity extends Activity implements AudioSource.AudioDataLi
         mLastImageLine = -1; mLastImageW = -1; mLastImageH = -1;
         mImageBmp = null;
         mNewImage = true;
+        mLastAutoSavedImage = -1;
     }
 
     private void startRx() {
@@ -154,7 +154,10 @@ public class ReceiveActivity extends Activity implements AudioSource.AudioDataLi
                 mLastImageW = mImage.width; mLastImageH = mImage.height; mImageBmp = null; mNewImage = true;
             }
             if (lines && mImage != null) {
-                if (mImage.line >= mImage.height) { mImage.line = -1; mNewImage = true; mImages++; }
+                if (mImage.line >= mImage.height) {
+                    mImage.line = -1; mNewImage = true; mImages++;
+                    maybeAutoSaveRx(mImages);
+                }
                 else if (mImage.line != mLastImageLine) { mLastImageLine = mImage.line; mNewImage = true; }
             }
         }
@@ -208,7 +211,7 @@ public class ReceiveActivity extends Activity implements AudioSource.AudioDataLi
                     mImageBmp.setPixels(mImage.pixels, 0, iw, 0, 0, iw, ih); ib = mImageBmp;
                 }
             }
-            if (mode != null && mode.length() > 0) mMode.setText("Mode: " + mode + (iw>0?" "+iw+"x"+ih:"") + "  img:" + images + "  sync:" + Decoder.dbgSyncPulses + " hdr:" + Decoder.dbgHeaders + " fb:" + Decoder.dbgFallback + " nl:" + Decoder.dbgNewLines);
+            if (mode != null && mode.length() > 0) mMode.setText("Mode: " + mode + (iw>0?" "+iw+"x"+ih:""));
             if (sb != null) mScopeView.setImageBitmap(sb);
             if (ib != null) mImageView.setImageBitmap(ib);
         }});
@@ -221,19 +224,45 @@ public class ReceiveActivity extends Activity implements AudioSource.AudioDataLi
                 bmp = Bitmap.createBitmap(mImage.pixels, 0, mImage.width, mImage.width, mImage.height, Bitmap.Config.ARGB_8888);
         }
         if (bmp == null) { Toast.makeText(this, "No image", Toast.LENGTH_SHORT).show(); return; }
+        saveBitmap(bmp, true);
+    }
+
+    private void maybeAutoSaveRx(long imageCount) {
         try {
-            File dir = new File(Environment.getExternalStorageDirectory(), "SSTV");
-            if (!dir.exists()) dir.mkdirs();
+            if (!AppSettings.autoSaveRx(this)) return;
+            if (imageCount <= 0 || imageCount == mLastAutoSavedImage) return;
+            Bitmap bmp = null;
+            synchronized (mLock) {
+                if (mImage != null && mImage.width > 0 && mImage.height > 0 && mImage.width*mImage.height <= mImage.pixels.length)
+                    bmp = Bitmap.createBitmap(mImage.pixels, 0, mImage.width, mImage.width, mImage.height, Bitmap.Config.ARGB_8888);
+            }
+            if (bmp != null) {
+                mLastAutoSavedImage = imageCount;
+                final Bitmap fb = bmp;
+                mHandler.post(new Runnable(){ public void run(){ saveBitmap(fb, false); }});
+            }
+        } catch (Throwable ignore) {}
+    }
+
+    private void saveBitmap(Bitmap bmp, boolean showToastAlways) {
+        if (bmp == null) return;
+        try {
+            File dir = StoragePaths.resolveDir(AppSettings.rxImageDir(this), StoragePaths.defaultRxImageDir());
             String name = "sstv_rx_" + System.currentTimeMillis() + ".png";
             File f = new File(dir, name);
             FileOutputStream out = new FileOutputStream(f);
             bmp.compress(Bitmap.CompressFormat.PNG, 100, out); out.flush(); out.close();
-            Toast.makeText(this, "Saved: " + f.getAbsolutePath(), Toast.LENGTH_LONG).show();
+            StoragePaths.scanFile(this, f, "image/png");
+            if (showToastAlways) {
+                Toast.makeText(this, "Saved: " + f.getAbsolutePath(), Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(this, R.string.image_autosaved, Toast.LENGTH_SHORT).show();
+            }
         } catch (Throwable t) {
-            Toast.makeText(this, "Save failed: " + t, Toast.LENGTH_LONG).show();
+            if (showToastAlways) Toast.makeText(this, "Save failed: " + t, Toast.LENGTH_LONG).show();
         }
     }
 
-    protected void onResume(){ super.onResume(); if (!mRunning && mToggle!=null) { mHandler.post(new Runnable(){ public void run(){ if (!mRunning) startRx(); }}); } }
+    protected void onResume(){ super.onResume(); UiTheme.applyGlobalBackground(this); if (!mRunning && mToggle!=null) { mHandler.post(new Runnable(){ public void run(){ if (!mRunning) startRx(); }}); } }
     protected void onPause(){ stopRx(); super.onPause(); }
 }
