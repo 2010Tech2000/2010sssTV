@@ -6,21 +6,40 @@
     android:layout_height="fill_parent"
     android:gravity="center"
     android:padding="20dp">
-    <Button
-        android:id="@+id/btn_receive"
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/btn_receive"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/receive" />
+        <Button
+            android:id="@+id/btn_transmit"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/transmit" />
+        <Button
+            android:id="@+id/btn_settings"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/settings" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/main_subtext"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/receive" />
-    <Button
-        android:id="@+id/btn_transmit"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="@string/transmit" />
-    <Button
-        android:id="@+id/btn_settings"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="@string/settings" />
+        android:gravity="center_horizontal"
+        android:textSize="10sp"
+        android:textColor="#888888"
+        android:paddingTop="8dp"
+        android:text="@string/app_subtext" />
 </LinearLayout>

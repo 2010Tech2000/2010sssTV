@@ -58,5 +58,6 @@
     <string name="folder_invalid_name">Invalid folder name</string>
     <string name="settings_custom_bg">Custom color (hex)</string>
     <string name="apply">Apply</string>
+    <string name="app_subtext">From 2010Tech | 2026 | v0.6.0</string>
 </resources>
 

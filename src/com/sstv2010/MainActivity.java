@@ -2,9 +2,12 @@ package com.sstv2010;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
@@ -12,6 +15,15 @@ public class MainActivity extends Activity {
         StorageMigration.migrateIfNeeded(this);
         setContentView(R.layout.main);
         UiTheme.applyGlobalBackground(this);
+
+        String version = "0.6.0";
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), 0);
+            version = info.versionName;
+        } catch (PackageManager.NameNotFoundException ignore) {}
+        TextView sub = (TextView) findViewById(R.id.main_subtext);
+        if (sub != null) sub.setText("From 2010Tech | 2026 | " + version);
+
         Button rx = (Button) findViewById(R.id.btn_receive);
         Button tx = (Button) findViewById(R.id.btn_transmit);
         Button st = (Button) findViewById(R.id.btn_settings);
