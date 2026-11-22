@@ -14,23 +14,29 @@
 
 # Features
 ### Receive
+<img src="https://github.com/user-attachments/assets/8cf4c573-5965-47bf-ae17-d75c506dd81a" width="160px" align="right"/>
+
 - A live preview at the bottom half of the screen. Shows everything being heard by the mic.
-- Above it an info area showing the current state, auto-detected mode and resolution.
+- Above it an info area showing the current state, detected mode and resolution.
 - At the top right is a preview window, showing the cropped received image and its progress.
-- **3 buttons:** Pause: pauses the decoding, does not clear the current pixels. WAV: Lets you pick .wav file to decode, useful if you made an audio recording on another app or device. Save: Saves the current decoded image from the image preview window. (if empty, a black image is saved). Not needed if you have auto-save on.
+- **3 buttons:** Pause: pauses the decoding, does not clear the current pixels. WAV: Lets you pick .wav file to decode, useful if you made an audio recording on another app or device. Save: Saves the current decoded image from the image preview window. (if empty, a black image is saved). Not needed if you have [auto-save](https://github.com/2010Tech2000/2010sssTV#settings) on.
 
 ### Transmit
+<img src="https://github.com/user-attachments/assets/3f4db888-7525-4350-a80b-f5974ef6179b" width="160px" align="right"/>
+
 - At the top is the image container, show the image you're going to transmit/transmitting. When the page is opened, a placeholder image is inserted (your wallpaper cropped), a button to insert your image is in the center (disappears once you inserted an image). While transmitting a dark mask appears indicating the current status of transmitting.
 - "Edit" button: Opens an in-app editor. Enabled only when an image is already inserted.
 - "Replace" button: Lets you pick a new image. Enabled only when one is already inserted.
 - "Play" button: Starts playing an encoded audio of the image.
-- "Save WAV" button: Saves a .wav file at the location selected in settings.
+- "Save WAV" button: Saves a .wav file at the [location selected in settings](https://github.com/2010Tech2000/2010sssTV#settings).
 - "Stop" button: Only visible when audio is playing. Replaces both play and save buttons, making it easy to press.
 - Mode selector: lets you select a mode in which the image will be encoded.
 - Status bar at the bottom: Shows the current % status of how much of the image was encoded.
 - Under the status bar is info of the status, elapsed time and time left.
 
 ### Editing
+<img src="https://github.com/user-attachments/assets/71c3d292-6e56-42a9-ab38-6f7d3b2d9033" width="160px" align="right"/>
+
 contains 2 modes, Text and Crop/Rotate. Edited images are not saved to device. Unprocessed image is always saved on RAM letting you to continue editing it later (as long as the transmit page wasn't closed).
 Text mode:
 - an image at the top, text items will be displayed on top.
@@ -46,6 +52,8 @@ Lets you crop, stretch, rotate or rotate an image. Aspect ratio is never changed
 Cancel and done buttons, done button exits the editor, saves the _project_ into RAM. Cancel discards all new edits made on that _session_ and exits editor.
 
 ### Settings
+<img src="https://github.com/user-attachments/assets/e4c01169-61ed-4afc-8f24-ab6cc1dc177a" width="180px" align="right"/>
+
 The settings page has all the settings for the app:
 - Auto-save: saves a decoded image once it's completed.
 - "Received images folder": A field to enter a location that images will be saved at. Next to it is a button to open a location picker. Default is `/Pictures/SSTV`
