@@ -156,7 +156,7 @@ private void tryLoadPlaceholder() {
             mSource = b;
             mPlaceholder = true;
             rescaleForMode();
-            if (mImage != null) mImage.setAlpha(80);
+            if (mImage != null) mImage.setAlpha(255);
             refreshButtons();
             return;
         } catch (Throwable ignore) {}
@@ -253,14 +253,33 @@ if (mReplace != null) mReplace.setEnabled(has && !mBusy && !mPlaceholder);
         final boolean show = active && f < 1f;
         mHandler.post(new Runnable(){ public void run(){
             try {
+                    int cw = mImageContainer.getWidth();
                 int ch = mImageContainer.getHeight();
-                if (ch <= 0) { mUnsent.setVisibility(show ? View.VISIBLE : View.INVISIBLE); return; }
-                int sentPx = Math.round(ch * f);
+                if (cw <= 0 || ch <= 0) { mUnsent.setVisibility(show ? View.VISIBLE : View.INVISIBLE); return; }
+                int pad = (mImage != null) ? mImage.getPaddingLeft() + mImage.getPaddingRight() : 0;
+                int padV = (mImage != null) ? mImage.getPaddingTop() + mImage.getPaddingBottom() : 0;
+                int availW = cw - pad;
+                int availH = ch - padV;
+                // compute displayed image rect (FIT_CENTER) within content area
+                int imgW = availW, imgH = availH, offX = pad/2, offY = padV/2;
+                if (mImage != null && mImage.getDrawable() != null) {
+                    int dw = mImage.getDrawable().getIntrinsicWidth();
+                    int dh = mImage.getDrawable().getIntrinsicHeight();
+                    if (dw > 0 && dh > 0) {
+                        float scale = Math.min((float)availW/dw, (float)availH/dh);
+                        imgW = Math.round(dw * scale);
+                        imgH = Math.round(dh * scale);
+                        offX = (cw - imgW) / 2;
+                        offY = (ch - imgH) / 2;
+                    }
+                }
+                int sentPx = Math.round(imgH * f);
                 FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) mUnsent.getLayoutParams();
-                lp.gravity = android.view.Gravity.TOP;
-                lp.topMargin = sentPx;
-                lp.height = Math.max(0, ch - sentPx);
-                lp.width = FrameLayout.LayoutParams.FILL_PARENT;
+                lp.gravity = android.view.Gravity.TOP | android.view.Gravity.LEFT;
+                lp.leftMargin = offX;
+                lp.topMargin = offY + sentPx;
+                lp.width = imgW;
+                lp.height = Math.max(0, imgH - sentPx);
                 mUnsent.setLayoutParams(lp);
                 mUnsent.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
             } catch(Throwable ignore){}

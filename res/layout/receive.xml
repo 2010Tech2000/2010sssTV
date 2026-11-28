@@ -9,7 +9,9 @@
         <Button android:id="@+id/btn_save_rx" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Save" />
       </LinearLayout>
     </LinearLayout>
-    <ImageView android:id="@+id/rx_image" android:layout_width="0dp" android:layout_weight="1" android:layout_height="fill_parent" android:minHeight="96dp" android:scaleType="fitCenter" android:adjustViewBounds="true" android:background="#101010" />
+    <FrameLayout android:layout_width="0dp" android:layout_weight="1" android:layout_height="fill_parent" android:minHeight="96dp" android:background="#ffffff" android:padding="2dp">
+      <ImageView android:id="@+id/rx_image" android:layout_width="fill_parent" android:layout_height="fill_parent" android:scaleType="fitCenter" android:adjustViewBounds="true" android:background="#101010" />
+    </FrameLayout>
   </LinearLayout>
   <TextView android:id="@+id/rx_status" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Listening..." android:textSize="12sp" />
   <TextView android:id="@+id/rx_mode" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Mode: auto" android:textSize="12sp" />
